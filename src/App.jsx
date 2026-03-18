@@ -5,8 +5,8 @@ function App() {
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
-        const todo = e.target.todo.value
-        setTodos([todo, ...todos])
+        const form = e.target.todo.value
+        setTodos([form.todo, value, ...todos])
     }
     return (
         <>
