@@ -5,8 +5,13 @@ function App() {
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
-        const form = e.target.todo.value
-        setTodos([form.todo, value, ...todos])
+        const form = e.target
+        if (form.todo.value.length === 0) {
+            alert('할 일을 입력해주세요')
+            return
+        }
+
+        setTodos([form.todo.value, ...todos])
     }
     return (
         <>
