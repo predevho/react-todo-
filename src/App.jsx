@@ -37,8 +37,7 @@ function App() {
             </form>
             <ul>
                 {todos.map((todo) => (
-                    <li key={todo.id}>
-                        {JSON.stringify(todo.completed)}
+                    <li key={todo.id} style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
                         <input type="checkbox" onChange={() => toggleTodo(todo.id)} checked={todo.completed} />
                         <span>
                             /{todo.id}/{todo.todo}
