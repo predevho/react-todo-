@@ -1,11 +1,12 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 function App() {
     const [todos, setTodos] = useState([
-        { todo: '할일1', completed: true },
-        { todo: '할일2', completed: false },
-        { todo: '할일3', completed: false },
+        { id: 1, todo: '할일1', completed: true },
+        { id: 2, todo: '할일2', completed: false },
+        { id: 3, todo: '할일3', completed: false },
     ])
+    let lastId = useRef(4)
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
@@ -15,17 +16,16 @@ function App() {
             return
         }
 
-        setTodos([{ todo: form.todo.value, completed: false }, ...todos])
+        setTodos([...todos, { id: lastId.current, todo: form.todo.value, completed: false }])
+        lastId.current++
     }
-    const deleteTodo = (selectedIndex) => {
-        const nextState = todos.filter((todo, index) => index !== selectedIndex)
+    const deleteTodo = (selectedId) => {
+        const nextState = todos.filter((todo) => todo.id !== selectedId)
         setTodos(nextState)
     }
 
-    const toggleTodo = (selectedIndex) => {
-        const nextState = todos.map((todo, index) =>
-            index === selectedIndex ? { ...todo, completed: !todo.completed } : todo,
-        )
+    const toggleTodo = (selectedId) => {
+        const nextState = todos.map((todo) => (todo.id === selectedId ? { ...todo, completed: !todo.completed } : todo))
         setTodos(nextState)
     }
 
@@ -36,12 +36,14 @@ function App() {
                 <button>추가</button>
             </form>
             <ul>
-                {todos.map((todo, index) => (
-                    <li key={index}>
+                {todos.map((todo) => (
+                    <li key={todo.id}>
                         {JSON.stringify(todo.completed)}
-                        <input type="checkbox" onChange={() => toggleTodo(index)} checked={todo.completed} />
-                        <span>{todo.todo}</span>
-                        <button onClick={() => deleteTodo(index)}>X</button>
+                        <input type="checkbox" onChange={() => toggleTodo(todo.id)} checked={todo.completed} />
+                        <span>
+                            /{todo.id}/{todo.todo}
+                        </span>
+                        <button onClick={() => deleteTodo(todo.id)}>X</button>
                     </li>
                 ))}
             </ul>
