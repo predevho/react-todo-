@@ -30,13 +30,25 @@ function App() {
     }
 
     const deleteTodo = (selectedId) => {
-        const nextState = todos.filter((item) => item.id !== selectedId)
-        setTodos(nextState)
+        fetch(`https://dummyjson.com/todos/${selectedId}`, {
+            method: 'DELETE',
+        })
+            .then((res) => res.json())
+            .then(console.log)
     }
 
     const toggleTodo = (selectedId) => {
-        const nextState = todos.map((item) => (item.id == selectedId ? { ...item, completed: !item.completed } : item))
-        setTodos(nextState)
+        const todoItem = todos.find((item) => item.id == selectedId)
+        console.log(todoItem.completed)
+        fetch(`https://dummyjson.com/todos/${selectedId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                completed: !todoItem.completed,
+            }),
+        })
+            .then((res) => res.json())
+            .then(console.log)
     }
 
     return (
