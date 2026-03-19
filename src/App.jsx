@@ -3,17 +3,16 @@ import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 
 function App() {
-    useEffect(() => {
+    const [todos, setTodos] = useState([])
+
+    const fetchTodos = () => {
         fetch('https://dummyjson.com/todos')
             .then((res) => res.json())
             .then((res) => setTodos(res.todos))
+    }
+    useEffect(() => {
+        fetchTodos()
     }, [])
-
-    const [todos, setTodos] = useState([
-        { id: 1, todo: '할일1', completed: true },
-        { id: 2, todo: '할일2', completed: false },
-        { id: 3, todo: '할일3', completed: false },
-    ])
 
     const addTodo = (todo) => {
         fetch('https://dummyjson.com/posts/add', {
@@ -26,7 +25,9 @@ function App() {
             }),
         })
             .then((res) => res.json())
-            .then(console.log)
+            .then(() => {
+                fetchTodos()
+            })
     }
 
     const deleteTodo = (selectedId) => {
@@ -34,7 +35,9 @@ function App() {
             method: 'DELETE',
         })
             .then((res) => res.json())
-            .then(console.log)
+            .then(() => {
+                fetchTodos()
+            })
     }
 
     const toggleTodo = (selectedId) => {
@@ -48,7 +51,9 @@ function App() {
             }),
         })
             .then((res) => res.json())
-            .then(console.log)
+            .then(() => {
+                fetchTodos()
+            })
     }
 
     return (
