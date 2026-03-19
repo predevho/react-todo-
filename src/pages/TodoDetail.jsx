@@ -14,9 +14,9 @@ function TodoDetail() {
 
     return (
         <ul>
-            <li>{todo.id}</li>
-            <li>{todo.todo}</li>
-            <li>{todo.completed ? '✅' : '❌'}</li>
+            <li>{todo.id} 번 할일</li>
+            <li>할일: {todo.todo}</li>
+            <li>할일여부: {todo.completed ? '✅' : '❌'}</li>
         </ul>
     )
 }
